@@ -1,10 +1,10 @@
-const express = require("express");
-const router = express.Router();
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
+import express from "express";
+const router = express.Router()
+import User from "../models/User.js"
+import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken"
 
-const User = require("../models/User");
-const JWT_TOKEN = process.env.JWT_TOKEN;
+const JWT_SECRET = process.env.JWT_SECRET;
 
 router.post("/register", async (req, res) => {
     try {
@@ -23,7 +23,7 @@ router.post("/register", async (req, res) => {
         const user = new User({ name, email, password: hash });
         await user.save();
 
-        const token = jwt.sign({ id: user._id }, JWT_TOKEN, {
+        const token = jwt.sign({ id: user._id }, JWT_SECRET, {
             expiresIn: "7d",
         });
         res.json({
@@ -60,7 +60,7 @@ router.post("/login", async (req, res) => {
             res.status(400).json({ message: "invalid password" });
         }
 
-        const token = jwt.sign({ id: user._id}, JWT_TOKEN, {expiresIn: "7d" });
+        const token = jwt.sign({ id: user._id}, JWT_SECRET, {expiresIn: "7d" });
 
         res.json({
             token,
@@ -72,4 +72,4 @@ router.post("/login", async (req, res) => {
     }
 });
 
-module.exports = router;
+export default router;

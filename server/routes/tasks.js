@@ -1,7 +1,7 @@
-const express = require("express");
+import express from "express"
 const router = express.Router();
-const Task = require("../models/Task");
-const auth = require("../middleware/auth");
+import Task from "../models/Task.js"
+import auth from "../middleware/auth.js";
 
 // Placeholder routes for task - expand as needed
 router.get("/", auth, async (req, res) => {
@@ -48,4 +48,5 @@ router.delete("/:id", auth, async (req, res) => {
     res.json({ message: "Task Deleted" });
 });
 
-module.exports = router;
+
+export default router;
